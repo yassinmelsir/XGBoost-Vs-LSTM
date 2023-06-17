@@ -1,10 +1,10 @@
 import pandas as pd
-from lstmfunctions import encode
+from lstm_functions import encode
 from sklearn.preprocessing import MinMaxScaler
 
 #input UK renewables
 #out CO2 emissions
-df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/full_dataset.csv')
+df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/full_dataset.csv').fillna(0)
 
 #input UK renewables
 #out CO2 emissions
@@ -14,8 +14,8 @@ df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/full_datase
 #input all data 
 #output CO2 Emissions
 
-X = df[df.columns.difference(['ISO','Total'])].fillna(0)
-y = df[['Country','Year','Total']].fillna(0)
+X = df[df.columns.difference(['ISO','Total'])]
+y = df[['Country','Year','Total']]
 
 X, y = encode(df,X,y)
 
