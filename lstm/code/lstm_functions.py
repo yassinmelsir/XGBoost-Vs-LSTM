@@ -4,6 +4,7 @@ import torch.nn as nn
 from torch.autograd import Variable 
 from sklearn.preprocessing import LabelEncoder, StandardScaler, MinMaxScaler
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
 
 
 def performancefigure(predictions, actual):
@@ -131,6 +132,10 @@ def lstm_predict(X,y):
 
   data_predict = mm.inverse_transform(data_predict) #reverse transformation
   dataY_plot = mm.inverse_transform(dataY_plot)
+
+  rmse = mean_squared_error(dataY_plot, data_predict, squared=False)
+
+  print(f"RMSE of the lstm model: {rmse:.3f}")
 
   return data_predict, dataY_plot
 

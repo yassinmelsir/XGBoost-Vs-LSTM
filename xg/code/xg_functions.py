@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 
+def categorizecols(X):
+    cats = X.select_dtypes(exclude=np.number).columns.to_list()
+    for col in cats: X[col] = X[col].astype('category')
+
 def plus30years(df): 
     newDf = df[0:0].copy()
     countries = df['Country'].unique()
