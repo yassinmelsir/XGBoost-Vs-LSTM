@@ -14,7 +14,8 @@ df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/full_datase
 #input all data 
 #output CO2 Emissions
 
-X = df[df.columns.difference(['ISO','Total'])]
+# X = df[df.columns.difference(['ISO','Total'])]
+X = df[['Country','Year','Fraction from renewable sources and waste']]
 y = df[['Country','Year','Total']]
 
 X, y = encode(df,X,y)

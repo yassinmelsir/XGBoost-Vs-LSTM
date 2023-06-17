@@ -5,6 +5,7 @@ from torch.autograd import Variable
 from sklearn.preprocessing import LabelEncoder, StandardScaler, MinMaxScaler
 from sklearn.model_selection import train_test_split
 
+
 def performancefigure(predictions, actual):
     predicted_emissions = predictions[:,2]
     actual_emissions = actual[:,2]
@@ -47,13 +48,13 @@ def encode(df,X,y):
 
     return X, y
 
-def model(input_size):
-    input_size = 29 #number of features
+def model(input_shape,output_shape):
+    print(input_shape,output_shape)
+    input_size = input_shape[2] #number of features
     hidden_size = 2 #number of features in hidden state
     num_layers = 1 #number of stacked lstm layers
-
-    num_classes = 3 #number of output classes
-    return LSTM1(num_classes, input_size, hidden_size, num_layers, input_size) #our lstm class
+    num_classes = output_shape[1] #number of output classes
+    return LSTM1(num_classes, input_size, hidden_size, num_layers, 1) #our lstm class
  
 def lstm_init(X,y):
   mm = MinMaxScaler()
@@ -80,7 +81,7 @@ def lstm_init(X,y):
   print("Training Shape", X_train_tensors_final.shape, y_train_tensors.shape)
   print("Testing Shape", X_test_tensors_final.shape, y_test_tensors.shape) 
   
-  lstm1 = model(X_train_tensors_final.shape[1])
+  lstm1 = model(X_train_tensors_final.shape,y_train_tensors.shape)
 
   num_epochs = 1000 #1000 epochs
   learning_rate = 0.001 #0.001 lr
@@ -120,7 +121,7 @@ def lstm_predict(X,y):
   #reshaping the dataset
   df_X_ss = torch.reshape(df_X_ss, (df_X_ss.shape[0], 1, df_X_ss.shape[1])) 
 
-  lstm1 = model(df_X_ss.shape[1])
+  lstm1 = model(df_X_ss.shape,df_y_mm.shape)
 
   lstm1.load_state_dict(torch.load('/Users/yme/code/AppliedAI/summativeassessment/lstm/model.pth'))
 
