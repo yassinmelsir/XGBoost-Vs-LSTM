@@ -5,6 +5,20 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 
+def run_xg():
+    X, y = getxgdata()
+    xg_init(X, y)
+    preds, rmse = xg_predict(X, y)
+    predictionsfigure(preds, X, y)
+
+def getxgdata():
+    df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/full_dataset.csv').fillna(0)
+
+    X, y = df.drop(columns=['ISO','Total']), df[['Country','Year','Total']]
+    
+    categorizecols(X)
+    return X, y
+
 def categorizecols(X):
     cats = X.select_dtypes(exclude=np.number).columns.to_list()
     for col in cats: X[col] = X[col].astype('category')
@@ -147,5 +161,6 @@ def xg_predict(X,y):
     # # create Dataframe for country, real total, predicted total
     print(f"RMSE of the base model: {rmse:.3f}")
     # print result and error
-    return preds
-    
+    return preds, rmse
+
+run_xg()

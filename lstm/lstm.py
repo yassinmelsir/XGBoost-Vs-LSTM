@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import pandas as pd
 import torch
 import torch.nn as nn
 from torch.autograd import Variable 
@@ -6,6 +7,20 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler, MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 
+def run_lstm():
+    X, y = getlstmdata()
+    lstm_init(X,y)
+    data_predict, dataY_plot, rmse = lstm_predict(X,y)
+    predictionsfigure(data_predict,dataY_plot)
+
+def getlstmdata():
+    df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/full_dataset.csv').fillna(0)
+
+    X, y = df.drop(columns=['ISO','Total']), df[['Country','Year','Total']]
+
+    X, y = encode(df,X,y)
+
+    return X, y
 
 def performancefigure(predictions, actual):
     predicted_emissions = predictions[:,2]
@@ -137,7 +152,7 @@ def lstm_predict(X,y):
 
   print(f"RMSE of the lstm model: {rmse:.3f}")
 
-  return data_predict, dataY_plot
+  return data_predict, dataY_plot, rmse
 
 class LSTM1(nn.Module):
     def __init__(self, num_classes, input_size, hidden_size, num_layers, seq_length):
@@ -166,3 +181,5 @@ class LSTM1(nn.Module):
         out = self.relu(out) #relu
         out = self.fc(out) #Final Output
         return out
+    
+run_lstm()
