@@ -1,68 +1,19 @@
-import matplotlib.pyplot as plt
-import pandas as pd
 import torch
 import torch.nn as nn
 from torch.autograd import Variable 
-from sklearn.preprocessing import LabelEncoder, StandardScaler, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
+from functions import get_data
 
-def run_lstm():
-    X, y = getlstmdata()
+#Long Short Term Memory Neural Network
+
+def full_run_lstm():
+    X, y = get_data()
     lstm_init(X,y)
-    data_predict, dataY_plot, rmse = lstm_predict(X,y)
-    predictionsfigure(data_predict,dataY_plot)
-
-def getlstmdata():
-    df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/full_dataset.csv').fillna(0)
-
-    X, y = df.drop(columns=['ISO','Total']), df[['Country','Year','Total']]
-
-    X, y = encode(df,X,y)
-
-    return X, y
-
-def performancefigure(predictions, actual):
-    predicted_emissions = predictions[:,2]
-    actual_emissions = actual[:,2]
-
-    plt.figure(figsize=(10,6))
-    plt.plot(predicted_emissions,label='Predicted')
-    plt.plot(actual_emissions,label='Actual')
-    plt.xlabel('Year')
-    plt.ylabel('Emissions')
-    plt.title('Actual vs Predicted Emissions per Year')
-    plt.legend()
-    plt.show()
-
-def predictionsfigure(predictions, actual):
-    predicted_year = predictions[:,1]
-    predicted_emissions = predictions[:,2]
-
-    actual_year = actual[:,1]
-    actual_emissions = actual[:,2]
-
-    plt.figure(figsize=(10,6))
-    plt.plot(predicted_year,predicted_emissions,label='Predicted')
-    plt.plot(actual_year,actual_emissions,label='Actual')
-    plt.xlabel('Year')
-    plt.ylabel('Emissions')
-    plt.title('Actual vs Predicted Emissions per Year')
-    plt.legend()
-    plt.show()
-
-def encode(df,X,y):
-    def encode_country(country):
-        return label_encoder.transform([country])[0]
-
-    def decode_country(country):
-        return label_encoder.inverse_transform([country])[0]
-    label_encoder = LabelEncoder()
-    label_encoder.fit(df['Country'])
-    X['Country'] = X['Country'].apply(encode_country)
-    y['Country'] = y['Country'].apply(encode_country)
-
-    return X, y
+    rmse, data_predict, input_X, input_Y,  = lstm_predict(X,y)
+    print(input_Y==y)
+    return rmse, data_predict, input_Y, input_X, 
 
 def model(input_shape,output_shape):
     print(input_shape,output_shape)
@@ -119,7 +70,7 @@ def lstm_init(X,y):
     if epoch % 100 == 0:
       print("Epoch: %d, loss: %1.5f" % (epoch, loss.item())) 
 
-    torch.save(lstm1.state_dict(), '/Users/yme/code/AppliedAI/summativeassessment/lstm/model.pth')
+    torch.save(lstm1.state_dict(), '/Users/yme/code/AppliedAI/summativeassessment/models/lstm.pth')
     
 def lstm_predict(X,y):
   mm = MinMaxScaler()
@@ -139,7 +90,7 @@ def lstm_predict(X,y):
 
   lstm1 = model(df_X_ss.shape,df_y_mm.shape)
 
-  lstm1.load_state_dict(torch.load('/Users/yme/code/AppliedAI/summativeassessment/lstm/model.pth'))
+  lstm1.load_state_dict(torch.load('/Users/yme/code/AppliedAI/summativeassessment/models/lstm.pth'))
 
   train_predict = lstm1(df_X_ss)#forward pass
   data_predict = train_predict.data.numpy() #numpy conversion
@@ -152,7 +103,7 @@ def lstm_predict(X,y):
 
   print(f"RMSE of the lstm model: {rmse:.3f}")
 
-  return data_predict, dataY_plot, rmse
+  return dataY_plot, data_predict, rmse
 
 class LSTM1(nn.Module):
     def __init__(self, num_classes, input_size, hidden_size, num_layers, seq_length):
@@ -182,4 +133,3 @@ class LSTM1(nn.Module):
         out = self.fc(out) #Final Output
         return out
     
-run_lstm()

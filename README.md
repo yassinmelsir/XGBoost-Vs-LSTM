@@ -4,12 +4,17 @@ The machine learning models are implementations of an XGBoost Gradient Boosted T
 
 TO DO
 
-make feature selection work
+Run Feature Selection for both Algos and Store Results
 
-decide on predictions and performance tests
+Run Both Algos 10 times with and without feature selection and store results
 
-produce performance and prediction anaysis
+Create Plot of Feature Selection Containing Results from Both Algos.
+
+Create Two plots: one with the run per RMSE for each algo
+
+another with the predicted and actual emisisons a year for each algo with and without feature selection
+
+
 
 write report
 
-clean code and review that tests still work
