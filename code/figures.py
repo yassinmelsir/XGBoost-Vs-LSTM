@@ -1,85 +1,85 @@
+import pandas as pd
 import matplotlib.pyplot as plt
 
-results = [
-    [1, 0.5, [0.3, 0.4, 0.6], [1, 2, 3], [0.2, 0.3, 0.5]],
-    [2, 0.7, [0.8, 0.9, 1.0], [4, 5, 6], [0.7, 0.9, 1.2]],
-    # ... more subarrays
-]
+def figure_one():
+    # Read the CSV files
+    file1 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/lstm_nofs_results.csv')
+    file2 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/xg_nofs_results.csv')
+    file3 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/lstm_fs_results.csv')
+    file4 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/xg_fs_results.csv')
 
-# Extract RMSE values and run numbers
-run_numbers = [result[0] for result in results]
-rmse_values = [result[1] for result in results]
+    # Plotting actual and predicted emissions for each file
+    plt.figure(figsize=(10, 6))
 
-# Extract predictions and actual results
-predictions = [result[2] for result in results]
-actual_outputs = [result[4] for result in results]
+    # File 1
+    plt.plot(file1['Year'], file1['Total'], label='File 1 - Actual')
+    plt.plot(file1['Year'], file1['Predicted Emissions'], label='lstm nofs - Predicted')
 
-# Plot RMSE for each run
-plt.figure(figsize=(8, 4))
-plt.subplot(1, 2, 1)
-plt.plot(run_numbers, rmse_values, marker='o')
-plt.xlabel('Run Number')
-plt.ylabel('RMSE')
-plt.title('RMSE for Each Run')
+    # File 2
+    # plt.plot(file2['Year'], file2['Total'], label='File 2 - Actual')
+    plt.plot(file2['Year'], file2['Predicted Emissions'], label='xg no fs - Predicted')
 
-# Plot predictions and actual results
-plt.subplot(1, 2, 2)
-for i in range(len(results)):
-    plt.plot(predictions[i], label=f'Run {run_numbers[i]} Predictions')
-    plt.plot(actual_outputs[i], label=f'Run {run_numbers[i]} Actual Outputs')
-plt.xlabel('Index')
-plt.ylabel('Value')
-plt.legend()
-plt.title('Predictions and Actual Results')
+    # File 3
+    # plt.plot(file3['Year'], file3['Total'], label='File 3 - Actual')
+    plt.plot(file3['Year'], file3['Predicted Emissions'], label='lstm fs - Predicted')
 
-# Adjust the spacing between subplots
-plt.tight_layout()
+    # File 4
+    # plt.plot(file4['Year'], file4['Total'], label='File 4 - Actual')
+    plt.plot(file4['Year'], file4['Predicted Emissions'], label='xg fs - Predicted')
 
-# Show the figure
-plt.show()
+    # Set labels and title
+    plt.xlabel('Year')
+    plt.ylabel('Emissions')
+    plt.title('Actual vs Predicted Emissions')
 
-#Predictions on dataset with no feature selection
+    # Add legend
+    plt.legend()
 
-#Predictions with extended dataset
+    # Show the plot
+    plt.show()
 
-#Predictions on dataset with feature selection
+# Read the CSV files
 
-#Predictions runs to dos 
-# 10 runs each 
-# create three plots: predictions/actuals, runs/rmse, feature_selection results
-# plot xg and lstm on same graph
-# plot runs with and without feature slection on same graph
+def figure_two():
+    file1 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/lstm_nofs_results.csv')
+    file2 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/xg_nofs_results.csv')
+    file3 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/lstm_fs_results.csv')
+    file4 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/xg_fs_results.csv')
 
-# run model 10 times and record results
-# results = [full_run_lstm() for _ in range(0,1)]
+    # Create subplots
+    fig, axs = plt.subplots(2, 2, figsize=(12, 8))
+    axs = axs.flatten()
 
-# #extract run/rmse and predicted/actual/year
-# runs, rmses, predicted_emissions, predicted_year, actual_emissions, actual_year = [],[],[],[],[],[]
+    # Plotting actual and predicted emissions for each file
+    for i, ax in enumerate(axs):
+        # Select the corresponding file
+        if i == 0:
+            data = file1
+            file_label = 'lstm nofs'
+        elif i == 1:
+            data = file2
+            file_label = 'xg nofs'
+        elif i == 2:
+            data = file3
+            file_label = 'lstm fs'
+        elif i == 3:
+            data = file4
+            file_label = 'xg fs'
 
-# data = []
-# for i,result in enumerate(results):
-#     runs, rmses, predicted_emissions, predicted_year, actual_emissions, actual_year = i,result[0],result[1]['Total'],result[1]['Year'],result[2]['Total'],result[2]['Year']
-#     data.append([runs, rmses, predicted_emissions, predicted_year, actual_emissions, actual_year])
+        # Plot actual and predicted emissions
+        ax.plot(data['Year'], data['Total'], label='Actual')
+        ax.plot(data['Year'], data['Predicted Emissions'], label='Predicted')
+        ax.set_title(file_label)
 
-# plt.figure(figsize=(8, 4))
-# plt.subplot(1, 2, 1)
-# plt.plot(runs, rmses)
-# plt.xlabel('Run')
-# plt.ylabel('RMSE')
-# plt.title('RMSE per Run')
+        # Add labels and legend only to the last row of subplots
+        if i >= len(axs) - 2:
+            ax.set_xlabel('Year')
+            ax.set_ylabel('Emissions')
+            ax.legend()
 
-# plt.subplot(1, 2, 2)
-# for i in range(len(results)):
-#     plt.plot(predicted_year,predicted_emissions[i], label=f'Run {runs[i]} Predictions')
-#     plt.plot(actual_year,actual_emissions, label=f'Run {runs[i]} Actual Outputs')
+    # Adjust spacing between subplots
+    plt.tight_layout()
 
-# plt.xlabel('Index')
-# plt.ylabel('Value')
-# plt.legend()
-# plt.title('Predictions and Actual Results')
+    # Show the plot
+    plt.show()
 
-# # Adjust the spacing between subplots
-# plt.tight_layout()
-
-# # Show the figure
-# plt.show()

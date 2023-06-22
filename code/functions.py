@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
 
 def get_data(dataset):
-    df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/full_dataset.csv').fillna(0)
-
+    # df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/full_dataset.csv').fillna(0)
+    df = lastsixtyyears()
     y = df[['Country','Year','Total']] 
     X = df.drop(columns=['ISO','Total']) 
     
@@ -105,7 +105,8 @@ def decode(df,y):
 #         newDf = pd.concat([newDf,newDfSlice]).sort_values(by=['Country', 'Year'], ascending=True)
 #     return newDf
 
-def lastsixtyyears(df): 
+def lastsixtyyears(): 
+    df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/full_dataset.csv').fillna(0)
     newDf = df[0:0].copy()
     countries = df['Country'].unique()
     for country in countries:
@@ -114,8 +115,8 @@ def lastsixtyyears(df):
         newCountry['Year'] = newCountry['Year'] + 32
         for column in newDf.columns.values:
             if (column != 'Country') & (column != 'Year'): newCountry[column] = float(0)
-        newDfSlice = pd.concat([oldCountry,newCountry])
-        newDf = pd.concat([newDf,newDfSlice])
+        # newDfSlice = pd.concat([oldCountry,newCountry])
+        newDf = pd.concat([df,newCountry])
     return newDf
 
 # def next35Years(df): 
