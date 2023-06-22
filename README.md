@@ -4,15 +4,20 @@ The machine learning models are implementations of an XGBoost Gradient Boosted T
 
 TO DO
 
-Run Feature Selection for both Algos and Store Results
+DONE Run Feature Selection for both Algos and Store Results
 
-Run Both Algos 10 times with and without feature selection and store results
+DONE Run Both Algos with and without feature selection and store results
 
-Create Plot of Feature Selection Containing Results from Both Algos.
+Implement Alt input data
 
-Create Two plots: one with the run per RMSE for each algo
+Create plot charting the rmses for the feature selection
 
-another with the predicted and actual emisisons a year for each algo with and without feature selection
+Create plot comparing predictions per year for the algos with and without feature selection for dataset 1
+
+Create plot comparing predictions per year for the algos with and without feature selection for dataset 2
+
+Bonus create plot for the cost convergence of the feature selection algo
+
 
 
 

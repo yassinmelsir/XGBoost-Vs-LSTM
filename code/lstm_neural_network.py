@@ -8,12 +8,11 @@ from functions import get_data
 
 #Long Short Term Memory Neural Network
 
-def full_run_lstm():
-    X, y = get_data()
+def run_lstm(dataset):
+    X, y = get_data(dataset)
     lstm_init(X,y)
-    rmse, data_predict, input_X, input_Y,  = lstm_predict(X,y)
-    print(input_Y==y)
-    return rmse, data_predict, input_Y, input_X, 
+    dataY_plot, data_predict, rmse  = lstm_predict(X,y)
+    return dataY_plot, data_predict, rmse
 
 def model(input_shape,output_shape):
     print(input_shape,output_shape)
@@ -101,7 +100,7 @@ def lstm_predict(X,y):
 
   rmse = mean_squared_error(dataY_plot, data_predict, squared=False)
 
-  print(f"RMSE of the lstm model: {rmse:.3f}")
+  print(f"Prediction RMSE of the lstm model: {rmse:.3f}")
 
   return dataY_plot, data_predict, rmse
 

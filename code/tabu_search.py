@@ -6,7 +6,6 @@ from gradient_boosted_trees import xg_init, xg_predict
 
 #Tabu Search
 
-
 def run_ts_fs(model, runs):
     evaluation_function = lstm_evaluate if model=='lstm' else xg_evaluate
     # def evaluate(array):
@@ -15,7 +14,7 @@ def run_ts_fs(model, runs):
     return TabuSearch(evaluation_function, runs) 
 
 def lstm_evaluate(s):
-    X, y = get_data()
+    X, y = get_data('full')
     fts_to_drop = [fts for fts in range(2,28) if fts not in s] 
     X = X.drop(X.columns[fts_to_drop], axis=1)
     lstm_init(X,y)
@@ -24,7 +23,7 @@ def lstm_evaluate(s):
     return rmse, s
 
 def xg_evaluate(s):
-    X, y = get_data()
+    X, y = get_data('full')
     fts_to_drop = [fts for fts in range(2,28) if fts not in s]
     X = X.drop(X.columns[fts_to_drop], axis=1)
     xg_init(X,y)
@@ -38,13 +37,12 @@ def TabuSearch(evaluation_function, runs):
     i_solution = list(range(2,28))
     F_history, T_list = [evaluation_function(i_solution)], [i_solution]
     BestIterations = [itrns]
-    # canadidate solution variable unused due to modified neighboor generation function
     # final solution unused to minimize the computationally expensive evaluation function
-    # f_solution, c_solution = i_solution.copy(), i_solution.copy()
+    f_solution, c_solution = i_solution.copy(), i_solution.copy()
     while itrns < runs:
         itrns+=1
-        #neighbourhood generated randomly for entire set of solutions rather than in neighborhood of candidate solution
-        nghbrhd = [random.sample(range(2, 29), random.randint(2, 27)) for _ in range(random.randint(1,2))]
+        #neighborhood generation heuristic: retain up to half of candidate solution and randomly generate the other half, while allowing for shorter or longer solutions
+        nghbrhd = [list(set(random.sample(c_solution, random.randint(2, 14)) + random.sample(range(2, 29), random.randint(2, 13)))) for _ in range(5)]
         #evaluate neighbourhood solutions
         evaluations =  [evaluation_function(s) for s in nghbrhd if s not in T_list]
         #find best solution in neighbourhood

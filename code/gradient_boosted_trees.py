@@ -7,11 +7,11 @@ from functions import get_data
 
 #XGBoost Extreme Gradient Boosted Trees
 
-def run_xg():
-    X, y = get_data()
+def run_xg(dataset):
+    X, y = get_data(dataset)
     xg_init(X, y)
     preds, rmse = xg_predict(X, y)
-    return rmse, preds, X, y
+    return rmse, preds, y
 
 
 def xg_init(X, y):
@@ -49,7 +49,7 @@ def xg_init(X, y):
     rmse = mean_squared_error(y_test, preds, squared=False)
 
     # print result and error
-    print(f"RMSE of the base model: {rmse:.3f}")
+    print(f"Initial RMSE of the model: {rmse:.3f}")
 
     model.save_model('/Users/yme/code/AppliedAI/summativeassessment/models/xg.json')
 
@@ -75,6 +75,6 @@ def xg_predict(X,y):
     rmse = mean_squared_error(y_test, preds, squared=False)
 
     # # create Dataframe for country, real total, predicted total
-    print(f"RMSE of the base model: {rmse:.3f}")
+    print(f"Prediction RMSE of the model: {rmse:.3f}")
     # print result and error
     return preds, rmse

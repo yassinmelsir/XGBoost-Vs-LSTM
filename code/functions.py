@@ -2,11 +2,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
 
-def get_data():
+def get_data(dataset):
     df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/full_dataset.csv').fillna(0)
 
-    X, y = df.drop(columns=['ISO','Total']), df[['Country','Year','Total']]
-
+    y = df[['Country','Year','Total']] 
+    X = df.drop(columns=['ISO','Total']) 
+    
+    if dataset != 'full': X = X.iloc[:,[0,1] + dataset]
+    
     X, y = encode(df,X,y)
 
     return X, y
@@ -15,14 +18,23 @@ def encode(df,X,y):
 
     def encode_country(country):
         return label_encoder.transform([country])[0]
-    # def decode_country(country):
-    #     return label_encoder.inverse_transform([country])[0]
     label_encoder = LabelEncoder()
     label_encoder.fit(df['Country'])
     X['Country'] = X['Country'].apply(encode_country)
     y['Country'] = y['Country'].apply(encode_country)
 
     return X, y
+
+def decode(df,y):
+
+    def decode_country(country):
+        return label_encoder.inverse_transform([country])[0]
+    label_encoder = LabelEncoder()
+    label_encoder.fit(df['Country'])
+    # X['Country'] = X['Country'].apply(decode_country)
+    y['Country'] = y['Country'].apply(decode_country)
+
+    return y
 
 # def multiple_runs_figure():
 #     predicted_year= preds['Year'].to_numpy()
@@ -93,18 +105,18 @@ def encode(df,X,y):
 #         newDf = pd.concat([newDf,newDfSlice]).sort_values(by=['Country', 'Year'], ascending=True)
 #     return newDf
 
-# def lastsixtyyears(df): 
-#     newDf = df[0:0].copy()
-#     countries = df['Country'].unique()
-#     for country in countries:
-#         oldCountry = df[(df['Country'] == country) & (df['Year'] >= 1990)].copy()
-#         newCountry = oldCountry.copy()
-#         newCountry['Year'] = newCountry['Year'] + 32
-#         for column in newDf.columns.values:
-#             if (column != 'Country') & (column != 'Year'): newCountry[column] = float(0)
-#         newDfSlice = pd.concat([oldCountry,newCountry])
-#         newDf = pd.concat([newDf,newDfSlice])
-#     return newDf
+def lastsixtyyears(df): 
+    newDf = df[0:0].copy()
+    countries = df['Country'].unique()
+    for country in countries:
+        oldCountry = df[(df['Country'] == country) & (df['Year'] >= 1990)].copy()
+        newCountry = oldCountry.copy()
+        newCountry['Year'] = newCountry['Year'] + 32
+        for column in newDf.columns.values:
+            if (column != 'Country') & (column != 'Year'): newCountry[column] = float(0)
+        newDfSlice = pd.concat([oldCountry,newCountry])
+        newDf = pd.concat([newDf,newDfSlice])
+    return newDf
 
 # def next35Years(df): 
 #     newDf = df[0:0].copy()
