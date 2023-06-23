@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 
 def figure_one():
     # Read the CSV files
-    file1 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/lstm_nofs_results.csv')
-    file2 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/xg_nofs_results.csv')
-    file3 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/lstm_fs_results.csv')
-    file4 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/xg_fs_results.csv')
+    file1 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/results/lstm_nofs_results.csv')
+    file2 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/results/xg_nofs_results.csv')
+    file3 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/results/lstm_fs_results.csv')
+    file4 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/results/xg_fs_results.csv')
 
     # Plotting actual and predicted emissions for each file
     plt.figure(figsize=(10, 6))
@@ -41,10 +41,10 @@ def figure_one():
 # Read the CSV files
 
 def figure_two():
-    file1 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/lstm_nofs_results.csv')
-    file2 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/xg_nofs_results.csv')
-    file3 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/lstm_fs_results.csv')
-    file4 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/xg_fs_results.csv')
+    file1 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/results/lstm_nofs_results.csv')
+    file2 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/results/xg_nofs_results.csv')
+    file3 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/results/lstm_fs_results.csv')
+    file4 = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/results/xg_fs_results.csv')
 
     # Create subplots
     fig, axs = plt.subplots(2, 2, figsize=(12, 8))
@@ -82,4 +82,28 @@ def figure_two():
 
     # Show the plot
     plt.show()
+
+def figure_for_file(filename):
+    # Read the CSV files
+    file = pd.read_csv(f'/Users/yme/code/AppliedAI/summativeassessment/data/results/{filename}.csv')
+
+    # Plotting actual and predicted emissions for each file
+    plt.figure(figsize=(10, 6))
+
+    # File
+    plt.plot(file['Year'], file['Total'], label='Actual')
+    plt.plot(file['Year'], file['Predicted Emissions'], label='Predicted')
+
+    # Set labels and title
+    plt.xlabel('Year')
+    plt.ylabel('Emissions')
+    plt.title('Actual vs Predicted Emissions')
+
+    # Add legend
+    plt.legend()
+
+    # Show the plot
+    plt.show()
+
+# Read the CSV files
 

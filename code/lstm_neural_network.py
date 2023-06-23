@@ -8,9 +8,10 @@ from functions import get_data
 
 #Long Short Term Memory Neural Network
 
-def run_lstm(dataset):
+def run_lstm(dataset,filename=''):
     X, y = get_data(dataset)
     lstm_init(X,y)
+    if filename != '': X, y = get_data(dataset,filename)
     dataY_plot, data_predict, rmse  = lstm_predict(X,y)
     return dataY_plot, data_predict, rmse
 
@@ -70,6 +71,8 @@ def lstm_init(X,y):
       print("Epoch: %d, loss: %1.5f" % (epoch, loss.item())) 
 
     torch.save(lstm1.state_dict(), '/Users/yme/code/AppliedAI/summativeassessment/models/lstm.pth')
+
+
     
 def lstm_predict(X,y):
   mm = MinMaxScaler()

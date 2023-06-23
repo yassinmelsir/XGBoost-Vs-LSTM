@@ -7,9 +7,10 @@ from functions import get_data
 
 #XGBoost Extreme Gradient Boosted Trees
 
-def run_xg(dataset):
+def run_xg(dataset,filename=''):
     X, y = get_data(dataset)
     xg_init(X, y)
+    if filename != '': X, y = get_data(dataset,filename)
     preds, rmse = xg_predict(X, y)
     return rmse, preds, y
 

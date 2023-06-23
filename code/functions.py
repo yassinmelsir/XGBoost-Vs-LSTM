@@ -2,12 +2,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
 
-def get_data(dataset):
-    df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/full_dataset.csv').fillna(0)
-    # df = extended_dataset()
+def get_data(dataset,filename=''):
+    df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/training/full_dataset.csv').fillna(0)
+    if filename != '': df = pd.read_csv(f'/Users/yme/code/AppliedAI/summativeassessment/data/{filename}.csv').fillna(0)
+    if dataset != 'full': df = df[(df['Country']=='United Kingdom')]
     y = df[['Country','Year','Total']] 
     X = df.drop(columns=['ISO','Total']) 
-    
     if dataset != 'full': X = X.iloc[:,[0,1] + dataset]
     
     X, y = encode(df,X,y)
@@ -37,7 +37,7 @@ def decode(df,y):
     return y
 
 def extended_dataset(): 
-    df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/full_dataset.csv').fillna(0)
+    df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/training/full_dataset.csv').fillna(0)
     newDf = df.copy()
     countries = df['Country'].unique()
     for country in countries:
@@ -49,3 +49,12 @@ def extended_dataset():
         # newDfSlice = pd.concat([oldCountry,newCountry])
         newDf = pd.concat([newDf,newCountry])
     return newDf
+
+def gen_tool_dataset(filename,country='',random_energy_data=False):
+    df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/training/full_dataset.csv').fillna(0)
+    cntry = 'United Kingdom'if country == '' else country
+    df = df[(df['Country'] == f'{cntry}')& (df['Year'] >= 1990)]
+    if random_energy_data:
+        print('modify renewable data')
+    df.to_csv(f'/Users/yme/code/AppliedAI/summativeassessment/data/{filename}.csv',index=False)
+
