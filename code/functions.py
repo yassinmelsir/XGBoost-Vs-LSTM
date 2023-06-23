@@ -1,17 +1,26 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
+from _tool_experiment_options import *
 
 def get_data(dataset,filename=''):
     df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/training/full_dataset.csv').fillna(0)
     if filename != '': df = pd.read_csv(f'/Users/yme/code/AppliedAI/summativeassessment/data/{filename}.csv').fillna(0)
-    if dataset != 'full': df = df[(df['Country']=='United Kingdom')]
+    print(df)
+    if tool_off:
+        # comment out or on dataset options to play with results
+        if nofs_UK_only: df = df[(df['Country']=='United Kingdom')] # nofs models will predict just UK
+        df = df[(df['Year'] >= nofs_min_year)] # nofs models will only model on data after set year
+        if fs_UK_only & (dataset != 'full'): df = df[(df['Country']=='United Kingdom')]
+        # if dataset != 'full': df = df[(df['Country']=='United Kingdom')] # fs models will predict just UK
+        if dataset != 'full': df = df[(df['Year'] >= fs_min_year)] # fs models will only model on data after 1990
+
     y = df[['Country','Year','Total']] 
     X = df.drop(columns=['ISO','Total']) 
     if dataset != 'full': X = X.iloc[:,[0,1] + dataset]
     
     X, y = encode(df,X,y)
-
+    print(X,y)
     return X, y
 
 def encode(df,X,y):
@@ -50,11 +59,11 @@ def extended_dataset():
         newDf = pd.concat([newDf,newCountry])
     return newDf
 
-def gen_tool_dataset(filename,country='',random_energy_data=False):
+def gen_tool_dataset(filename,country=''):
     df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/training/full_dataset.csv').fillna(0)
     cntry = 'United Kingdom'if country == '' else country
-    df = df[(df['Country'] == f'{cntry}')& (df['Year'] >= 1990)]
-    if random_energy_data:
+    df = df[(df['Country'] == f'{cntry}')& (df['Year'] >= min_prediction_year)]
+    if True:
         print('modify renewable data')
     df.to_csv(f'/Users/yme/code/AppliedAI/summativeassessment/data/{filename}.csv',index=False)
 

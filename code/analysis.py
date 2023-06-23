@@ -62,7 +62,6 @@ def lstm_w_fs(column_indexes):
     results.to_csv('/Users/yme/code/AppliedAI/summativeassessment/data/results/lstm_fs_results.csv', index=False)
 
 def xg_tool(output_filename,input_filename,dataset='full'):
-    print(input_filename)
     rmse, preds, y = run_xg(dataset,input_filename)
     df = pd.read_csv(f'/Users/yme/code/AppliedAI/summativeassessment/data/{input_filename}.csv').fillna(0)
     y = decode(df,y)
@@ -77,6 +76,7 @@ def lstm_tool(output_filename,input_filename,dataset='full'):
     dataY_plot, data_predict, rmse = run_lstm(dataset,input_filename)
     X, y = get_data('full')
     results = y.copy()
+    breakpoint()
     results['Predicted Emissions'] = data_predict[:,2]
     # preds is numpy
     # y is dataframe
