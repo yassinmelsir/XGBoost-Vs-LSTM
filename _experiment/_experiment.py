@@ -1,21 +1,16 @@
-from analysis import *
-from figures import figure_one, figure_two
+from analysis_functions import *
+from figure_functions import figure_one, figure_two
 import numpy as np
 
 # xg_features, lstm_features = fs(10) # feature selection
 
-# Possible features: 2-28
-feature_solution_1 = [9, 10, 11]
-feature_solution_2 = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
 
+xg_w_nofs() # xg without feature selection
+lstm_w_nofs() # lstm without feature selection
 
-# xg_w_nofs() # xg with no feature selection
-
-# lstm_w_nofs() # lstm with no feature selection
-
-xg_w_fs(feature_solution_2) # xg with feature selection
-
-lstm_w_fs(feature_solution_2) # lstm with feature selection
+# input True for feature selection solution 1, input False for feature selection input 2
+xg_w_fs(False) # xgboost with feature selection
+lstm_w_fs(False) # lstm with feature selection
 
 # curve file function
 
@@ -23,10 +18,6 @@ lstm_w_fs(feature_solution_2) # lstm with feature selection
 
 # function figure curved file v normal file 
 
-figure_two() # figures
-
-# get working
-
-# change evaluation function
+figure_two() # figures for 
 
 

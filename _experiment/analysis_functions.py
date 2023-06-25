@@ -1,5 +1,5 @@
 import pandas as pd
-from functions import decode, get_data
+from general_functions import decode, get_data
 from gradient_boosted_trees import run_xg
 from lstm_neural_network import run_lstm
 from tabu_search import run_ts_fs
@@ -40,8 +40,9 @@ def lstm_w_nofs():
     # y is dataframe
     results.to_csv(f'/Users/yme/code/AppliedAI/summativeassessment/data/results/lstm_nofs_results.csv', index=False)
 # xg boost with feature selection with normal dataset
-def xg_w_fs(column_indexes):
-    rmse, preds, y = run_xg(column_indexes)
+def xg_w_fs(solution_one=True):
+    features = [9, 10, 11] if solution_one else [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    rmse, preds, y = run_xg(features)
     df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/training/full_dataset.csv').fillna(0)
     y = decode(df,y)
     results = y.copy()
@@ -49,9 +50,11 @@ def xg_w_fs(column_indexes):
     # preds is numpy
     # y is dataframe
     results.to_csv(f'/Users/yme/code/AppliedAI/summativeassessment/data/results/xg_fs_results.csv', index=False)
+
 # lstm with feature selection with normal dataset
-def lstm_w_fs(column_indexes):
-    dataY_plot, data_predict, rmse = run_lstm(column_indexes)
+def lstm_w_fs(solution_one=True):
+    features = [9, 10, 11] if solution_one else [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    dataY_plot, data_predict, rmse = run_lstm(features)
     X, y = get_data([2])
     df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/training/full_dataset.csv').fillna(0)
     y = decode(df,y)

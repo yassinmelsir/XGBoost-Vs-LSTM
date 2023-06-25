@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
-from functions import get_data
+from general_functions import get_data
 
 #XGBoost Extreme Gradient Boosted Trees
 

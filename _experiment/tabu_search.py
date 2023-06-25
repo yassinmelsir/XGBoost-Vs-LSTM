@@ -1,6 +1,6 @@
 import random
 import math
-from functions import get_data
+from general_functions import get_data
 from lstm_neural_network import lstm_init, lstm_predict
 from gradient_boosted_trees import xg_init, xg_predict
 

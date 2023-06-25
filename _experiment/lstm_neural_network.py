@@ -4,7 +4,7 @@ from torch.autograd import Variable
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
-from functions import get_data
+from general_functions import get_data
 
 #Long Short Term Memory Neural Network
 
