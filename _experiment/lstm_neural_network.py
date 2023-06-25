@@ -4,14 +4,15 @@ from torch.autograd import Variable
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
-from general_functions import get_data
+from general_functions import get_data, curve_data
 
 #Long Short Term Memory Neural Network
 
-def run_lstm(dataset,filename=''):
+def run_lstm(dataset,curve=1,filename=''):
     X, y = get_data(dataset)
     lstm_init(X,y)
     if filename != '': X, y = get_data(dataset,filename)
+    X = curve_data(X,curve)
     dataY_plot, data_predict, rmse  = lstm_predict(X,y)
     return dataY_plot, data_predict, rmse
 

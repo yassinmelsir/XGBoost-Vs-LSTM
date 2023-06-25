@@ -40,9 +40,9 @@ def lstm_w_nofs():
     # y is dataframe
     results.to_csv(f'/Users/yme/code/AppliedAI/summativeassessment/data/results/lstm_nofs_results.csv', index=False)
 # xg boost with feature selection with normal dataset
-def xg_w_fs(solution_one=True):
-    features = [9, 10, 11] if solution_one else [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
-    rmse, preds, y = run_xg(features)
+def xg_w_fs(fs_solution_one=True,curve=1):
+    features = [9, 10, 11] if fs_solution_one else [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    rmse, preds, y = run_xg(features,curve)
     df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/training/full_dataset.csv').fillna(0)
     y = decode(df,y)
     results = y.copy()
@@ -52,9 +52,9 @@ def xg_w_fs(solution_one=True):
     results.to_csv(f'/Users/yme/code/AppliedAI/summativeassessment/data/results/xg_fs_results.csv', index=False)
 
 # lstm with feature selection with normal dataset
-def lstm_w_fs(solution_one=True):
-    features = [9, 10, 11] if solution_one else [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
-    dataY_plot, data_predict, rmse = run_lstm(features)
+def lstm_w_fs(fs_solution_one,curve=1):
+    features = [9, 10, 11] if fs_solution_one else [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    dataY_plot, data_predict, rmse = run_lstm(features,curve)
     X, y = get_data([2])
     df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/training/full_dataset.csv').fillna(0)
     y = decode(df,y)

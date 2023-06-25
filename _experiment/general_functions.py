@@ -3,6 +3,11 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
 from _tool_experiment_options import *
 
+def curve_data(X,curve):
+    for col in X.columns:
+        X[col] = X[col] * curve
+    return X
+
 def get_data(dataset,filename=''):
     df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/training/full_dataset.csv').fillna(0)
     if filename != '': df = pd.read_csv(f'/Users/yme/code/AppliedAI/summativeassessment/data/{filename}.csv').fillna(0)

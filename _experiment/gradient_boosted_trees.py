@@ -3,14 +3,15 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
-from general_functions import get_data
+from general_functions import get_data, curve_data
 
 #XGBoost Extreme Gradient Boosted Trees
 
-def run_xg(dataset,filename=''):
+def run_xg(dataset,curve=1,filename=''):
     X, y = get_data(dataset)
     xg_init(X, y)
     if filename != '': X, y = get_data(dataset,filename)
+    X = curve_data(X,curve)
     preds, rmse = xg_predict(X, y)
     return rmse, preds, y
 
