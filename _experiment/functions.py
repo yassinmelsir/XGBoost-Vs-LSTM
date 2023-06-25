@@ -8,8 +8,6 @@ def get_data(dataset,filename=''):
     if filename != '': df = pd.read_csv(f'/Users/yme/code/AppliedAI/summativeassessment/data/{filename}.csv').fillna(0)
     if tool_off:
         # comment out or on dataset options to play with results
-        if nofs_UK_only: df = df[(df['Country']=='United Kingdom')] # nofs models will predict just UK
-        df = df[(df['Year'] >= nofs_min_year)] # nofs models will only model on data after set year
         if fs_UK_only & (dataset != 'full'): df = df[(df['Country']=='United Kingdom')]
         # if dataset != 'full': df = df[(df['Country']=='United Kingdom')] # fs models will predict just UK
         if dataset != 'full': df = df[(df['Year'] >= fs_min_year)] # fs models will only model on data after 1990
