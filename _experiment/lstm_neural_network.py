@@ -71,8 +71,6 @@ def lstm_init(X,y):
       print("Epoch: %d, loss: %1.5f" % (epoch, loss.item())) 
 
     torch.save(lstm1.state_dict(), '/Users/yme/code/AppliedAI/summativeassessment/models/lstm.pth')
-
-
     
 def lstm_predict(X,y):
   mm = MinMaxScaler()

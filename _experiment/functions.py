@@ -6,7 +6,6 @@ from _tool_experiment_options import *
 def get_data(dataset,filename=''):
     df = pd.read_csv('/Users/yme/code/AppliedAI/summativeassessment/data/training/full_dataset.csv').fillna(0)
     if filename != '': df = pd.read_csv(f'/Users/yme/code/AppliedAI/summativeassessment/data/{filename}.csv').fillna(0)
-    print(df)
     if tool_off:
         # comment out or on dataset options to play with results
         if nofs_UK_only: df = df[(df['Country']=='United Kingdom')] # nofs models will predict just UK
@@ -20,7 +19,6 @@ def get_data(dataset,filename=''):
     if dataset != 'full': X = X.iloc[:,[0,1] + dataset]
     
     X, y = encode(df,X,y)
-    print(X,y)
     return X, y
 
 def encode(df,X,y):
